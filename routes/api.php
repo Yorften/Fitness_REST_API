@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SessionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserAuthController;
@@ -19,9 +20,17 @@ Route::post('register', [UserAuthController::class, 'register'])->name('register
 Route::post('login', [UserAuthController::class, 'login'])->name('login');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('logout',[UserAuthController::class,'logout'])->name('logout');
-});
+    Route::post('logout', [UserAuthController::class, 'logout'])->name('logout');
+    Route::get('sessions', [SessionController::class, 'index'])->name('session.index');
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    Route::middleware(['session'])->group(function () {
+        Route::get('sessions/{session:slug}', [SessionController::class, 'show'])->name('session.show');
+        Route::put('sessions/{session:slug}', [SessionController::class, 'update'])->name('session.update');
+        Route::delete('sessions/{session:slug}', [SessionController::class, 'destroy'])->name('session.destroy');
+    });
+
+    Route::post('sessions', [SessionController::class, 'store'])->name('session.store');
+
+
+    Route::patch('sessions/{session:slug}/status', [SessionController::class, 'status'])->name('session.status');
 });

@@ -19,6 +19,7 @@ class SessionFactory extends Factory
     {
         $user_id = User::inRandomOrder()->pluck('id')->first();
         return [
+            'name' => fake()->sentence(),
             'weight' => fake()->randomFloat(3, 20, 300),
             'height' => fake()->randomFloat(2, 1.60, 2.20),
             'chest_measurement' => fake()->randomFloat(2, 80, 130),

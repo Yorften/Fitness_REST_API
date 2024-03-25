@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('sessions', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('slug');
             $table->decimal('weight', 6, 3);
             $table->decimal('height', 3, 2);
             $table->decimal('chest_measurement', 5, 2);
