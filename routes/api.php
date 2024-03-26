@@ -24,13 +24,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('sessions', [SessionController::class, 'index'])->name('session.index');
 
     Route::middleware(['session'])->group(function () {
-        Route::get('sessions/{session:slug}', [SessionController::class, 'show'])->name('session.show');
-        Route::put('sessions/{session:slug}', [SessionController::class, 'update'])->name('session.update');
-        Route::delete('sessions/{session:slug}', [SessionController::class, 'destroy'])->name('session.destroy');
+        Route::get('sessions/{session}', [SessionController::class, 'show'])->name('session.show');
+        Route::put('sessions/{session}', [SessionController::class, 'update'])->name('session.update');
+        Route::delete('sessions/{session}', [SessionController::class, 'destroy'])->name('session.destroy');
     });
 
     Route::post('sessions', [SessionController::class, 'store'])->name('session.store');
-
 
     Route::patch('sessions/{session:slug}/status', [SessionController::class, 'status'])->name('session.status');
 });
