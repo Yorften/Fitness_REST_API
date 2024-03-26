@@ -49,6 +49,7 @@ class SessionController extends Controller
     public function store(StoreSessionRequest $request)
     {
         $validated = $request->validated();
+        $validated['user_id'] = auth()->id();
         $session = Session::create($validated);
 
         if ($session) {
@@ -61,11 +62,75 @@ class SessionController extends Controller
 
     public function update(UpdateSessionRequest $request, $slug)
     {
-        $session = Session::where('slug', $slug)->first();
+        $validated = $request->validated();
+        $sessionBySlug = Session::where('slug', $slug)->first();
+        $sessionById = Session::where('id', $slug)->first();
+
+        if (!is_null($sessionById)) {
+            return response()->json([
+                'session' => $sessionById,
+            ], 200);
+        }
+
+        if (!is_null($sessionBySlug)) {
+            return response()->json([
+                'session' => $sessionBySlug,
+            ], 200);
+        }
+    }
+
+    public function status($slug)
+    {
+        $sessionBySlug = Session::where('slug', $slug)->first();
+        $sessionById = Session::where('id', $slug)->first();
+
+        if (!is_null($sessionById)) {
+            if ($sessionById->status == 'FINISHED') {
+                return response()->json([
+                    'message' => 'The session is already finished.',
+                ], 200);
+            }
+            $sessionById->update([
+                'status' => 'FINISHED',
+            ]);
+            return response()->json([
+                'message' => 'The session has been set as finished.',
+            ], 200);
+        }
+
+        if (!is_null($sessionBySlug)) {
+            if ($sessionBySlug->status == 'FINISHED') {
+                return response()->json([
+                    'message' => 'The session is already finished.',
+                ], 200);
+            }
+            $sessionBySlug->update([
+                'status' => 'FINISHED',
+            ]);
+            return response()->json([
+                'message' => 'The session has been set as finished.',
+            ], 200);
+        }
     }
 
 
-    public function destroy()
+    public function destroy($slug)
     {
+        $sessionBySlug = Session::where('slug', $slug)->first();
+        $sessionById = Session::where('id', $slug)->first();
+
+        if (!is_null($sessionById)) {
+            $sessionById->delete();
+            return response()->json([
+                'message' => 'The session has been deleted successfully.',
+            ], 200);
+        }
+
+        if (!is_null($sessionBySlug)) {
+            $sessionBySlug->delete();
+            return response()->json([
+                'message' => 'The session has been deleted successfully.',
+            ], 200);
+        }
     }
 }

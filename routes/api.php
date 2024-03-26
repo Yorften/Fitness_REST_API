@@ -26,10 +26,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware(['session'])->group(function () {
         Route::get('sessions/{session}', [SessionController::class, 'show'])->name('session.show');
         Route::put('sessions/{session}', [SessionController::class, 'update'])->name('session.update');
+        Route::patch('sessions/{session}/status', [SessionController::class, 'status'])->name('session.status');
         Route::delete('sessions/{session}', [SessionController::class, 'destroy'])->name('session.destroy');
     });
 
     Route::post('sessions', [SessionController::class, 'store'])->name('session.store');
 
-    Route::patch('sessions/{session:slug}/status', [SessionController::class, 'status'])->name('session.status');
 });

@@ -11,7 +11,7 @@ class StoreSessionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class StoreSessionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string',
+            'weight' => 'required|numeric',
+            'height' => 'required|numeric',
+            'chest_measurement' => 'required|numeric',
+            'waist_measurement' => 'required|numeric',
+            'hips_measurement' => 'required|numeric',
+            'distance_run' => 'required|integer',
         ];
     }
 }
