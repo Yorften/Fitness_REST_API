@@ -22,7 +22,7 @@ return new class extends Migration
             $table->decimal('hips_measurement', 5, 2);
             $table->integer('distance_run');
             $table->enum('status', ['NOT FINISHED', 'FINISHED']);
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ use App\Http\Controllers\SessionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserAuthController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,9 @@ Route::post('login', [UserAuthController::class, 'login'])->name('login');
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [UserAuthController::class, 'logout'])->name('logout');
     Route::get('sessions', [SessionController::class, 'index'])->name('session.index');
+    Route::get('users/@me', [UserController::class, 'show'])->name('user.show');
+    Route::delete('unsubscribe', [UserController::class, 'destroy'])->name('user.destroy');
+    
 
     Route::middleware(['session'])->group(function () {
         Route::get('sessions/{session}', [SessionController::class, 'show'])->name('session.show');
