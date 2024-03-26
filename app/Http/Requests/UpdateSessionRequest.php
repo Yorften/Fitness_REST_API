@@ -22,7 +22,13 @@ class UpdateSessionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'sometimes|string',
+            'weight' => 'sometimes|numeric',
+            'height' => 'sometimes|numeric',
+            'chest_measurement' => 'sometimes|numeric',
+            'waist_measurement' => 'sometimes|numeric',
+            'hips_measurement' => 'sometimes|numeric',
+            'distance_run' => 'sometimes|integer',
         ];
     }
 }

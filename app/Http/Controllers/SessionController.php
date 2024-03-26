@@ -67,14 +67,16 @@ class SessionController extends Controller
         $sessionById = Session::where('id', $slug)->first();
 
         if (!is_null($sessionById)) {
+            $sessionById->update($validated);
             return response()->json([
-                'session' => $sessionById,
+                'message' => 'The session has benn updated succesfully.',
             ], 200);
         }
 
         if (!is_null($sessionBySlug)) {
+            $sessionBySlug->update($validated);
             return response()->json([
-                'session' => $sessionBySlug,
+                'message' => 'The session has benn updated succesfully.',
             ], 200);
         }
     }
