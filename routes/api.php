@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('sessions', [SessionController::class, 'index'])->name('session.index');
     Route::get('users/@me', [UserController::class, 'show'])->name('user.show');
     Route::delete('unsubscribe', [UserController::class, 'destroy'])->name('user.destroy');
-    
+
 
     Route::middleware(['session'])->group(function () {
         Route::get('sessions/{session}', [SessionController::class, 'show'])->name('session.show');
@@ -35,5 +35,4 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::post('sessions', [SessionController::class, 'store'])->name('session.store');
-
 });
