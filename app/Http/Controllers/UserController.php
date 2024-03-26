@@ -9,8 +9,13 @@ class UserController extends Controller
 {
     public function show()
     {
+        $tokens = auth()->user()->tokens->map(function ($token) {
+            return $token->token;
+        });
+    
         return response()->json([
             'My Information' => auth()->user(),
+            'Tokens' => $tokens
         ], 200);
     }
 
