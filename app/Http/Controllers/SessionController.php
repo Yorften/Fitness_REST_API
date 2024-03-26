@@ -67,6 +67,11 @@ class SessionController extends Controller
         $sessionById = Session::where('id', $slug)->first();
 
         if (!is_null($sessionById)) {
+            if ($sessionById->status == 'FINISHED') {
+                return response()->json([
+                    'message' => 'You can\'t update a finished session.',
+                ], 200);
+            }
             $sessionById->update($validated);
             return response()->json([
                 'message' => 'The session has benn updated succesfully.',
@@ -74,6 +79,11 @@ class SessionController extends Controller
         }
 
         if (!is_null($sessionBySlug)) {
+            if ($sessionBySlug->status == 'FINISHED') {
+                return response()->json([
+                    'message' => 'You can\'t update a finished session.',
+                ], 200);
+            }
             $sessionBySlug->update($validated);
             return response()->json([
                 'message' => 'The session has benn updated succesfully.',
