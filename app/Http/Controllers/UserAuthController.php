@@ -32,7 +32,13 @@ class UserAuthController extends Controller
                 'message' => 'Invalid Credentials'
             ], 401);
         }
-        $token = $user->createToken($user->name . '-AuthToken')->plainTextToken;
+        if ($user->tokens()->exists()) {
+            return response()->json([
+                'access_token' => $user->tokens()->first()->token,
+            ]);
+        } else {
+            $token = $user->createToken($user->name . '-AuthToken')->plainTextToken;
+        }
         return response()->json([
             'access_token' => $token,
         ]);
