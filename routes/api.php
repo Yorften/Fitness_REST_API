@@ -17,8 +17,16 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::post('register', [UserAuthController::class, 'register'])->name('register');
-Route::post('login', [UserAuthController::class, 'login'])->name('login');
+// This route is for unauthenticated users that attempts to use tha api without valid access, the auth:sanctum middleware redirects to api/login if not authenticated using 'GET' request. why? i don't know but this was my solution to display an error message to the user.
+Route::get('login', [UserAuthController::class, function () {
+    return response()->json([
+        'message' => 'Access denied.'
+    ]);
+}])->name('login');
+
+
+Route::post('register', [UserAuthController::class, 'register'])->name('api.register');
+Route::post('login', [UserAuthController::class, 'login'])->name('api.login');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [UserAuthController::class, 'logout'])->name('logout');
